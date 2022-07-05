@@ -1,0 +1,15 @@
+#define MKEY_F1    201
+#define MKEY_F2    202
+#define MKEY_F3    203
+#define MKEY_F4    204
+#define MKEY_F5    205
+#define MKEY_F6    206
+#define MKEY_F7    207
+#define MKEY_F8    208
+#define MKEY_F9    209
+#define MKEY_F10   210
+#define MKEY_SF10  220
+#define MKEY_LEFT  230
+#define MKEY_RIGHT 231
+#define MKEY_UP    232
+#define MKEY_DOWN  233

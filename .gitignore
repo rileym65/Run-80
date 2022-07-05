@@ -1,0 +1,6 @@
+run80
+*.o
+*.asm
+*.lst
+*.prg
+

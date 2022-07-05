@@ -1,0 +1,60 @@
+  ?              - dump memory
+  ?addr          - dump memory from specified address
+  ?BC            - dump memory from BC
+  ?DE            - dump memory from DE
+  ?HL            - dump memory from HL
+  ?IX            - dump memory from IX
+  ?IY            - dump memory from IY
+  ?PC            - dump memory from PC
+  ?SP            - dump memory from SP
+  $              - disassemble memory
+  $addr          - disassemble memory from address
+  $BC            - disassemble memory from BC
+  $DE            - disassemble memory from DE
+  $HL            - disassemble memory from HL
+  $IX            - disassemble memory from IX
+  $IY            - disassemble memory from IY
+  $PC            - disassemble memory from PC
+  $SP            - disassemble memory from SP
+  !addr bb bb .. - store bytes at address
+  !BC bb bb ..   - store bytes at address in BC
+  !DE bb bb ..   - store bytes at address in DE
+  !HL bb bb ..   - store bytes at address in HL
+  !IX bb bb ..   - store bytes at address in IX
+  !IY bb bb ..   - store bytes at address in IY
+  !PC bb bb ..   - store bytes at address in PC
+  !SP bb bb ..   - store bytes at address in SP
+  @              - run at PC
+  A=nn           - Set A to value
+  B=nn           - Set B to value
+  B?             - show break points
+  B+addr         - add break point
+  B-addr         - remove break point
+  BC             - clear all breakpoints
+  BC=nnnn        - set BC to value
+  C=nn           - Set C to value
+  D=nn           - Set D to value
+  DE=nnnn        - set DE to value
+  E=nn           - Set E to value
+  H=nn           - Set H to value
+  HL=nnnn        - set HL to value
+  I nn           - trigger maskable interrupt, nn is vector for mode 2
+  I=nn           - Set I to value
+  IM=n           - Set interrupt mode (0, 1, 2)
+  IX=nnnn        - set IX to value
+  IY=nnnn        - set IY to value
+  L=nn           - Set L to value
+  N              - trigger NMI
+  PC=nnnn        - set PC to value
+  R              - Reset processor
+  SP=nnnn        - set SP to value
+  T?             - show instruction traps
+  T+bb           - add instruction trap
+  T-bb           - remove instruction trap
+  TC             - clear all traps
+  TR+            - turn on command tracing
+  TR-            - turn off command tracing
+  /              - exit
+
+
+
