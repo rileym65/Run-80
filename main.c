@@ -6,7 +6,13 @@
 #include "header.h"
 
 void TStore(struct Z80CPU *z80,word Address,byte Value) {
+  if (trs80Mode != 0 && Address < 0x3c00) return;
   z80->Memory[Address]=Value;
+  if (trs80Mode != 0 && Address >= 0x3c00 && Address <= 0x3fff) {
+    if (Value <= 32) Value = 32;
+    GotoXY((Address & 0x0003f) + 16, ((Address & 0x03c0) >> 6) + 2);
+    printf("%c",Value); fflush(stdout);
+    }
   }
 
 byte TFetch(struct Z80CPU *z80,word Address) {
@@ -163,6 +169,7 @@ int main(int argc,char *argv[]) {
   cpu.In=TIn;
   debugMode=1;
   traceMode=0;
+  trs80Mode = 0;
   bpCount=0;
   allowInterrupts='Y';
   debugAddress = 0;
@@ -173,6 +180,7 @@ int main(int argc,char *argv[]) {
   for (i=1;i<argc;i++) {
   reset(&cpu);
     if (strcmp(argv[i],"-d")==0) debugMode=1;
+    if (strcmp(argv[i],"-t")==0) trs80Mode=1;
     else loader(&cpu, argv[i]);
     }
   printf("Z80 Emulator v%.2f (%.2f)\n",RUN80_VERSION,Z80_VERSION);
@@ -181,5 +189,6 @@ int main(int argc,char *argv[]) {
     if (debugMode!=0) debugger(&cpu);
     z80_cycle(&cpu);
     ++cpu.R;
+    if (cpu.Halt != 0) debugMode = 1;
     }
   }

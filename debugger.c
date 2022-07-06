@@ -65,27 +65,27 @@ void clearBreakpoint(word addr) {
 void drawDebugScreen() {
   ClrScr();
   GotoXY(1,1);
-  printf("+AF---+ +AF'--+ +-------------------------------------------------------------+\n");
-  printf("|     | |     | |                                                             |\n");
-  printf("+-----+ +-----+ |                                                             |\n");
-  printf("+BC---+ +BC'--+ |                                                             |\n");
-  printf("|     | |     | |                                                             |\n");
-  printf("+-----+ +-----+ |                                                             |\n");
-  printf("+DE---+ +DE'--+ |                                                             |\n");
-  printf("|     | |     | |                                                             |\n");
-  printf("+-----+ +-----+ |                                                             |\n");
-  printf("+HL---+ +HL'--+ |                                                             |\n");
-  printf("|     | |     | |                                                             |\n");
-  printf("+-----+ +-----+ |                                                             |\n");
-  printf("+IX---+ +IY---+ |                                                             |\n");
-  printf("|     | |     | |                                                             |\n");
-  printf("+-----+ +-----+ |                                                             |\n");
-  printf("+PC---+ +SP---+ |                                                             |\n");
-  printf("|     | |     | |                                                             |\n");
-  printf("+-----+ +-----+ +-------------------------------------------------------------+\n");
-  printf("+R----+ +I----+\n");
-  printf("|     | |     |\n");
-  printf("+-----+ +-----+\n");
+  printf("+AF---++AF'--++----------------------------------------------------------------+\n");
+  printf("|     ||     ||                                                                |\n");
+  printf("+-----++-----+|                                                                |\n");
+  printf("+BC---++BC'--+|                                                                |\n");
+  printf("|     ||     ||                                                                |\n");
+  printf("+-----++-----+|                                                                |\n");
+  printf("+DE---++DE'--+|                                                                |\n");
+  printf("|     ||     ||                                                                |\n");
+  printf("+-----++-----+|                                                                |\n");
+  printf("+HL---++HL'--+|                                                                |\n");
+  printf("|     ||     ||                                                                |\n");
+  printf("+-----++-----+|                                                                |\n");
+  printf("+IX---++IY---+|                                                                |\n");
+  printf("|     ||     ||                                                                |\n");
+  printf("+-----++-----+|                                                                |\n");
+  printf("+PC---++SP---+|                                                                |\n");
+  printf("|     ||     ||                                                                |\n");
+  printf("+-----++-----++----------------------------------------------------------------+\n");
+  printf("+R----++I----+\n");
+  printf("|     ||     |\n");
+  printf("+-----++-----+\n");
   }
 
 void debugOutput(char* line) {
@@ -93,8 +93,8 @@ void debugOutput(char* line) {
   for (i=0; i<15; i++) strcpy(debugLines[i], debugLines[i+1]);
   strcpy(debugLines[15], line);
   for (i=0; i<16; i++) {
-    while (strlen(debugLines[i]) < 60) strcat(debugLines[i]," ");
-    GotoXY(18,i+2); printf("%s",debugLines[i]);
+    while (strlen(debugLines[i]) < 64) strcat(debugLines[i]," ");
+    GotoXY(16,i+2); printf("%s",debugLines[i]);
     }
   }
 
@@ -322,20 +322,20 @@ void updateDebugScreen(struct Z80CPU *z80) {
   GotoXY(3,5); printf("%04x",z80->BC.BC);
   GotoXY(3,8); printf("%04x",z80->DE.DE);
   GotoXY(3,11); printf("%04x",z80->HL.HL);
-  GotoXY(10,2); printf("%02x",((z80->AFa) >> 4 & 0xff));
-  GotoXY(13,2); printf("%02x",(z80->AFa & 0xff));
-  GotoXY(11,5); printf("%04x",z80->BCa);
-  GotoXY(11,8); printf("%04x",z80->DEa);
-  GotoXY(11,11); printf("%04x",z80->HLa);
+  GotoXY(9,2); printf("%02x",((z80->AFa) >> 4 & 0xff));
+  GotoXY(12,2); printf("%02x",(z80->AFa & 0xff));
+  GotoXY(10,5); printf("%04x",z80->BCa);
+  GotoXY(10,8); printf("%04x",z80->DEa);
+  GotoXY(10,11); printf("%04x",z80->HLa);
   GotoXY(3,14); printf("%04x",z80->IX);
-  GotoXY(11,14); printf("%04x",z80->IY);
+  GotoXY(10,14); printf("%04x",z80->IY);
   GotoXY(3,17); printf("%04x",z80->PC);
-  GotoXY(11,17); printf("%04x",z80->SP);
+  GotoXY(10,17); printf("%04x",z80->SP);
   GotoXY(4,20); printf("%02x",z80->R);
-  GotoXY(12,20); printf("%02x",z80->I);
+  GotoXY(11,20); printf("%02x",z80->I);
   for (i=0; i<16; i++) {
-    while (strlen(debugLines[i]) < 60) strcat(debugLines[i]," ");
-    GotoXY(18,i+2); printf("%s",debugLines[i]);
+    while (strlen(debugLines[i]) < 64) strcat(debugLines[i]," ");
+    GotoXY(16,i+2); printf("%s",debugLines[i]);
     }
   GotoXY(1,22);
   if ((z80->AF.AFu.F & SIGN_FLAG)==SIGN_FLAG) printf("S "); else printf("- ");
@@ -511,6 +511,20 @@ void debugger(struct Z80CPU *cpu) {
         else if (buffer[0] == 'n' || buffer[0] == 'N') {
           z80_nmi(cpu);
           updateDebugScreen(cpu);
+          }
+        else if (buffer[0] == 's' || buffer[0] == 'S') {
+          addr = 0x3c00;
+          j = 2;
+          while (addr < 0x4000) {
+            for (i=0; i<64; i++) {
+              if (TFetch(cpu, addr) < 32) buffer[i] = 32;
+                else buffer[i] = TFetch(cpu, addr);
+              addr++;
+              }
+            buffer[64] = 0;
+            GotoXY(16,j); printf("%s\n",buffer);
+            j++;
+            }
           }
         }
       }

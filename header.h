@@ -60,6 +60,7 @@ LINK word debugAddress;
 LINK byte noDisk;
 LINK int  enableBreakpoints;
 LINK int  enableTraps;
+LINK byte trs80Mode;
 
 LINK char errbuffer[100];
 

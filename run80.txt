@@ -47,6 +47,7 @@
   N              - trigger NMI
   PC=nnnn        - set PC to value
   R              - Reset processor
+  S              - Copy TRS80 screen region to output window
   SP=nnnn        - set SP to value
   T?             - show instruction traps
   T+bb           - add instruction trap
