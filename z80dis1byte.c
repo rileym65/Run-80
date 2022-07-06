@@ -9,7 +9,7 @@ int disP0(byte a,byte b,byte c,byte d,char *buffer)         /* NOP */
 int disP1(byte a,byte b,byte c,byte d,char *buffer)         /* LD BC,nn */
   {
     sprintf(buffer,"%02x %02x %02x    ld bc,%04x",a,b,c,b+c*256);
-    return 2;
+    return 3;
   }
 
 int disP2(byte a,byte b,byte c,byte d,char *buffer)         /* LD (BC),A */
