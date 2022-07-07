@@ -160,6 +160,48 @@ void debugB(struct Z80CPU *z80, char* buffer) {
     }
   }
 
+void debugC(struct Z80CPU* cpu, char*line) {
+  int i;
+  int j;
+  char outp[300];
+  if (*line == '?') {
+    debugOutput("Conditional breakpoints:");
+    for (i=0; i<numConditions; i++) {
+      sprintf(outp,"%d:%s",i+1,conditions[i]);
+      debugOutput(outp);
+      }
+    return;
+    }
+  if (*line == '+' && *(line+1) == '+') {
+    useConditions = 'Y';
+    debugOutput("Conditions enabled");
+    return;
+    }
+  if (*line == '-' && *(line+1) == '-') {
+    useConditions = 'N';
+    debugOutput("Conditions disabled");
+    return;
+    }
+  if (*line == '+') {
+    line++;
+    strcpy(conditions[numConditions++], line);
+    return;
+    }
+  if (*line == '-') {
+    line++;
+    j = atoi(line) - 1;
+    if (j >= 0 && j < numConditions) {
+      for (i=j; i<numConditions-1; i++)
+        strcpy(conditions[i], conditions[i+1]);
+      numConditions--;
+      }
+    }
+  if (*line == 'c' || *line == 'C') {
+    numConditions = 0;
+    return;
+    }
+  }
+
 void debugT(struct Z80CPU *z80, char* buffer) {
   int i,j;
   byte b[4];
@@ -364,6 +406,12 @@ void debugger(struct Z80CPU *cpu) {
     char da[80];
     byte flag;
     word value;
+    if (debugMode != 1 && useConditions == 'Y') {
+      for (i=0; i<numConditions; i++)
+        if (evaluate(cpu, conditions[i]) != 0) {
+          debugMode = 1;
+          }
+      }
     if (debugMode == 3) debugMode = 1;
     if (debugMode==2) {
       if (trapCount > 0 && enableTraps != 0) {
@@ -495,6 +543,7 @@ void debugger(struct Z80CPU *cpu) {
         else if (buffer[0] == '!') debugEX(cpu,buffer+1);
         else if (buffer[0] == '@') debugMode = 2;
         else if (buffer[0] == 'b' || buffer[0] == 'B') debugB(cpu,buffer+1);
+        else if (buffer[0] == 'c' || buffer[0] == 'C') debugC(cpu,buffer+1);
         else if (buffer[0] == '/') { debugMode = 0; simExit = 0xff; }
         else if (strncasecmp(buffer,"tr+",3) == 0) traceMode = 1;
         else if (strncasecmp(buffer,"tr-",3) == 0) traceMode = 0;

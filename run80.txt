@@ -33,6 +33,12 @@
   BC             - clear all breakpoints
   BC=nnnn        - set BC to value
   C=nn           - Set C to value
+  C+expr         - Add conditional breakpoint
+  C-num          - Remove specified conditional breakpoint
+  C?             - Show conditional breakpoints
+  C++            - Enable conditional breakpoints
+  C--            - Disable conditional breakpoints
+  CC             - Clear all conditional breakpoints
   D=nn           - Set D to value
   DE=nnnn        - set DE to value
   E=nn           - Set E to value

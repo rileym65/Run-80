@@ -1,5 +1,6 @@
 OBJECTS=\
 	debugger.o\
+	evaluate.o \
 	main.o\
 	mterm.o\
 	z80.o \

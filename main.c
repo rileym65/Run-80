@@ -176,6 +176,7 @@ int main(int argc,char *argv[]) {
   trapCount = 0;
   enableBreakpoints = -1;
   enableTraps = -1;
+  useConditions = 'Y';
   for (i=0;i<256;i++) ports[i]=255;
   for (i=1;i<argc;i++) {
   reset(&cpu);

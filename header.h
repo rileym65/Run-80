@@ -44,6 +44,8 @@ typedef unsigned short word;
 #define INDXOFF   500
 #define HTIMER    10000
 
+LINK char conditions[100][256];
+LINK int  numConditions;
 LINK int debugMode;
 LINK int traceMode;
 LINK word breakpoints[MAX_BREAKPOINTS];
@@ -61,6 +63,7 @@ LINK byte noDisk;
 LINK int  enableBreakpoints;
 LINK int  enableTraps;
 LINK byte trs80Mode;
+LINK char useConditions;
 
 LINK char errbuffer[100];
 
